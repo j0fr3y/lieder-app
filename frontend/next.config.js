@@ -1,4 +1,20 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
 
-module.exports = nextConfig
+    return config;
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: process.env.NEXT_PUBLIC_STRAPI_PROTOCOL,
+        hostname: process.env.NEXT_PUBLIC_STRAPI_HOST,
+        port: process.env.NEXT_PUBLIC_STRAPI_PORT,
+        pathname: "/uploads/**",
+      },
+    ],
+  },
+};
+
+module.exports = nextConfig;

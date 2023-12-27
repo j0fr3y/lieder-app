@@ -4,21 +4,23 @@
   "info": {
     "singularName": "song",
     "pluralName": "songs",
-    "displayName": "Songs",
+    "displayName": "Song",
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
     },
-    "document": {
+    "file": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "files"
       ]
@@ -26,11 +28,21 @@
     "lyrics": {
       "type": "text"
     },
-    "authors": {
+    "artists": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::author.author",
+      "target": "api::artist.artist",
       "inversedBy": "songs"
+    },
+    "cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

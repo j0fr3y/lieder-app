@@ -1,33 +1,33 @@
 {
   "kind": "collectionType",
-  "collectionName": "authors",
+  "collectionName": "artists",
   "info": {
-    "singularName": "author",
-    "pluralName": "authors",
-    "displayName": "Authors",
-    "description": ""
+    "singularName": "artist",
+    "pluralName": "artists",
+    "displayName": "Artist"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
-      "type": "string"
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
     },
-    "photo": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
+    "picture": {
       "allowedTypes": [
         "images"
-      ]
+      ],
+      "type": "media",
+      "multiple": false
     },
     "songs": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::song.song",
-      "mappedBy": "authors"
+      "mappedBy": "artists"
     }
   }
 }
