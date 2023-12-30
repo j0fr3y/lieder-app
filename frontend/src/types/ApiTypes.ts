@@ -107,7 +107,12 @@ export interface Meta {
   pagination: Pagination;
 }
 
-export interface ApiResponse {
+export interface SongsApiResponse {
   data: Song[];
+  meta: Meta;
+}
+
+export interface SongApiResponse {
+  data: Song;
   meta: Meta;
 }

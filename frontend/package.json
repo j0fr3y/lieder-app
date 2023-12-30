@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "meilisearch": "^0.36.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-pdf": "^7.6.0"
+    "react-pdf": "^7.6.0",
+    "react-spring": "^9.7.3"
   },
   "devDependencies": {
     "@types/node": "^20",

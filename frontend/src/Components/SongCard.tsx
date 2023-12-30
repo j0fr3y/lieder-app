@@ -14,7 +14,7 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, imageUrl }) => {
   imageUrl = process.env.NEXT_PUBLIC_STRAPI_URL + imageUrl;
 
   return (
-    <div className="rounded-lg border shadow-md">
+    <div className="rounded-lg border shadow-md bg-white">
       <div className=" m-6 flex flex-col items-center ">
         <Image
           src={imageUrl}
@@ -23,7 +23,7 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, imageUrl }) => {
           height={150} // Set the desired height
           className="object-cover rounded-lg"
         />
-        <h3 className="text-lg font-medium text-gray-800 mt-2">{title}</h3>
+        <h3 className="text-lg font-medium  mt-2">{title}</h3>
         <p className="text-sm text-gray-600">{artist}</p>
       </div>
     </div>
