@@ -1,7 +1,7 @@
 "use client";
-import Image from "next/image";
+
 import SongCard from "@/Components/SongCard";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import MeiliSearch from "meilisearch";
@@ -12,12 +12,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   let meiliClient = new MeiliSearch({
     host: process.env.NEXT_PUBLIC_MEILI_HOST || "",
-    apiKey: "5c7d43f30c2e888a250b06751f9fb52482d620f02baf04e5cdf2ad3c003317b7",
+    apiKey: process.env.NEXT_PUBLIC_MEILI_PUBLIC_KEY || "",
   });
-
-  useEffect(() => {
-    searchSongs();
-  }, []);
 
   function searchSongs() {
     meiliClient.getIndex("song").then((index) => {
@@ -26,6 +22,10 @@ export default function Home() {
       });
     });
   }
+
+  useEffect(() => {
+    searchSongs();
+  }, []);
 
   function createSeoFriendlyUrl(title: string) {
     // Convert to lowercase
@@ -55,9 +55,10 @@ export default function Home() {
       </div>
 
       <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {songs.map((song) => (
+        {songs.map((song, index) => (
           <Link
             href={"/song/" + song.id + "/" + createSeoFriendlyUrl(song.title)}
+            key={index}
           >
             <SongCard
               key={song.id} // Add a unique key for each song

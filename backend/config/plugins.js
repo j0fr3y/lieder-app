@@ -1,14 +1,14 @@
 const index = require("@strapi/plugin-i18n/strapi-admin");
 const song = require("../src/api/song/controllers/song");
 
-module.exports = () => ({
+module.exports = ({ env }) => ({
   //...
   meilisearch: {
     config: {
       // Your meili host
-      host: "http://localhost:7700",
+      host: env("MEILI_HOST"),
       // Your master key or private key
-      apiKey: "masterKey",
+      apiKey: env("MEILI_MASTER_KEY"),
     },
   },
 });

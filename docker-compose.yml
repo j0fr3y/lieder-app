@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      - meilisearch
+    environment:
+      - NEXT_PUBLIC_STRAPI_API_TOKEN=dae0a4798889f355eb27f9984fc87eb5d76a228ed5a091d86525b870108255029389ff1b3fbc047576eb6b594fc50e79e04e13e81b292da408d5b79cb17416b4b77e5fa39a26329bbd5fff152d5c18435d19aa1e7eadd823428ed59ee025c0a132f8c3aaae849b5b05361226d4ef429fb070ecc2e1d7e3a3ab6f7657fdaaac95
+      - NEXT_PUBLIC_STRAPI_URL=http://192.168.178.72:1337
+      - NEXT_PUBLIC_STRAPI_HOST=192.168.178.72
+      - NEXT_PUBLIC_STRAPI_PORT=1337
+      - NEXT_PUBLIC_STRAPI_PROTOCOL=http
+      - NEXT_PUBLIC_MEILI_HOST=http://192.168.178.72:7700
+      - NEXT_PUBLIC_MEILI_PUBLIC_KEY=65e24fcc616ee11f2151241cf802dd9993e70c0ff34d1e7439e275f87fd90fb0
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "1337:1337"
+    depends_on:
+      - meilisearch
+    environment:
+      - HOST=0.0.0.0
+      - PORT=1337
+      - APP_KEYS=TWX9LIG0hZzgZcteSqZ67A==,mMCeZz1EqgXb04QpgUk7Xw==,fGWLyqT41g5bD0IosoPdeA==,4GyDQrD6nqzoM62JfdBe+A==
+      - API_TOKEN_SALT=rMjcb4ZSDXPVPBiSFUOkoA==
+      - ADMIN_JWT_SECRET=Rh8EiZg/N+MJOQSJPSjbMA==
+      - TRANSFER_TOKEN_SALT=BG6PS7fRztUQiVBqitEocg==
+      - DATABASE_CLIENT=sqlite
+      - DATABASE_FILENAME=.tmp/data.db
+      - JWT_SECRET=K8jDaE5QWk/Iw+vW8aWo0A==
+      - MEILI_HOST=http://192.168.178.72:7700
+      - MEILI_MASTER_KEY=masterKey
+    volumes:
+      - backend_data:/opt/app
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_MASTER_KEY=masterKey
+      - MEILI_NO_ANALYTICS=true
+    volumes:
+      - meilisearch_data:/data.ms
+
+volumes:
+  frontend_data:
+  backend_data:
+  meilisearch_data:
