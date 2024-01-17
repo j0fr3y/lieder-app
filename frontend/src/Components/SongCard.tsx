@@ -15,7 +15,7 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, imageUrl }) => {
 
   return (
     <div className="rounded-lg border shadow-md bg-white">
-      <div className=" m-6 flex flex-col items-center ">
+      <div className=" p-6 flex flex-col items-center ">
         <Image
           src={imageUrl}
           alt="Album artwork"
@@ -23,8 +23,8 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, imageUrl }) => {
           height={150} // Set the desired height
           className="object-cover rounded-lg"
         />
-        <h3 className="text-lg font-medium  mt-2">{title}</h3>
-        <p className="text-sm text-gray-600">{artist}</p>
+        <h3 className="text-lg font-medium  mt-3">{title}</h3>
+        <p className="text-sm text-gray-600 mt-0.5">{artist}</p>
       </div>
     </div>
   );
