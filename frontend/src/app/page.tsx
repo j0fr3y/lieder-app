@@ -6,6 +6,11 @@ import Link from "next/link";
 
 import MeiliSearch from "meilisearch";
 import { Song } from "@/types/MeiliTypes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
@@ -42,19 +47,35 @@ export default function Home() {
 
   return (
     <main className="bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center bg-white p-8">
+      <div className="flex justify-between items-center bg-white p-6 sm:p-8">
         <h1 className="text-4xl font-semibold">AHF Songs</h1>
 
+        <div className="flex items-center sm:visible invisible">
+          <input
+            type="text"
+            className=" px-4 py-2 border border-gray-300 rounded-md w-40 sm:w-60"
+            placeholder="Suche nach einem Lied ..."
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyUp={(e) => searchSongs()}
+          />
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className=" pl-4 text-gray-400 "
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-8 sm:hidden mx-8">
         <input
           type="text"
-          className=" px-4 py-2 border border-gray-300 rounded-md"
+          className=" px-4 py-2 border border-gray-300 rounded-md w-full"
           placeholder="Suche nach einem Lied ..."
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyUp={(e) => searchSongs()}
         />
       </div>
 
-      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {songs.map((song, index) => (
           <Link
             href={"/song/" + song.id + "/" + createSeoFriendlyUrl(song.title)}
