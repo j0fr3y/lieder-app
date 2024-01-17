@@ -3,6 +3,8 @@ import { SongApiResponse } from "@/types/ApiTypes";
 import Image from "next/image";
 import PdfViewer from "@/Components/PdfViewer";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 async function getSongData(songId: number) {
   const response = await fetch(
@@ -35,7 +37,7 @@ export default async function PageSong({
   let songData: SongApiResponse = await getSongData(Number(params.segment[0]));
 
   return (
-    <div className="p-6">
+    <div className="">
       <main className="flex flex-col h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -58,19 +60,20 @@ export default async function PageSong({
               </p>
             </div>
           </div>
-          <Link
-            href={"/lyrics/" + songData.data.id}
-            className="p-2.5 bg-gray-800 text-gray-100 rounded-lg font-medium text-sm"
-          >
-            Lyrics anzeigen
-          </Link>
         </header>
         <section className="flex-grow p-8 overflow-auto">
           <div className="bg-card text-card-foreground border border-gray-200 shadow-sm rounded-lg">
-            <div className="flex flex-col p-6">
+            <div className="flex justify-between items-center p-6">
               <h3 className="text-2xl font-semibold leading-none tracking-tight">
                 Notenblätter
               </h3>
+              <Link
+                href={"/lyrics/" + songData.data.id}
+                className="p-2.5 text-gray-600 rounded-lg font-medium text-sm"
+              >
+                Lyrics anzeigen
+                <FontAwesomeIcon icon={faArrowRight} className="pl-1.5" />
+              </Link>
             </div>
             <div className="p-6">
               <PdfViewer
