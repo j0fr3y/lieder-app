@@ -1,9 +1,9 @@
 "use client";
 import { Document, Page } from "react-pdf";
-import { useState } from "react";
 import { pdfjs } from "react-pdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -13,9 +13,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
+  const [pageWidth, setPageWidth] = useState<number>();
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
+    if (typeof window !== "undefined") {
+      resizeListener();
+      window.addEventListener("resize", resizeListener);
+    }
+  }
+
+  function resizeListener() {
+    if (typeof window !== "undefined") {
+      setPageWidth(window.innerWidth);
+    }
   }
 
   const goToPreviousPage = () => {
@@ -56,7 +66,11 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
           file={process.env.NEXT_PUBLIC_STRAPI_URL + pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
         >
-          <Page renderTextLayer={false} pageNumber={pageNumber} />
+          <Page
+            renderTextLayer={false}
+            pageNumber={pageNumber}
+            width={pageWidth ?? 0 * 0.7}
+          />
         </Document>
       </div>
     </div>
