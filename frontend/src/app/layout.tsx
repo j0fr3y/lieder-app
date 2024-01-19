@@ -18,11 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <PlausibleProvider
-        domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? ""}
+        domain={process.env.NEXT_PUBLIC_FRONTEND_DOMAIN!}
         selfHosted={true}
-      >
-        <body className={inter.className}>{children}</body>
-      </PlausibleProvider>
+        enabled={true}
+        trackLocalhost={true}
+      />
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

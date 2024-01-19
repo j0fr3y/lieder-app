@@ -4,7 +4,8 @@
   "info": {
     "singularName": "artist",
     "pluralName": "artists",
-    "displayName": "Artist"
+    "displayName": "Artist",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -15,13 +16,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "picture": {
-      "allowedTypes": [
-        "images"
-      ],
-      "type": "media",
-      "multiple": false
     },
     "songs": {
       "type": "relation",

@@ -26,23 +26,14 @@
       ]
     },
     "lyrics": {
-      "type": "text"
+      "type": "text",
+      "required": false
     },
     "artists": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::artist.artist",
       "inversedBy": "songs"
-    },
-    "cover": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": false
     }
   }
 }

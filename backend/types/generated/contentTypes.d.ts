@@ -368,13 +368,13 @@ export interface ApiArtistArtist extends Schema.CollectionType {
     singularName: 'artist';
     pluralName: 'artists';
     displayName: 'Artist';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
     name: Attribute.String & Attribute.Required & Attribute.Unique;
-    picture: Attribute.Media;
     songs: Attribute.Relation<
       'api::artist.artist',
       'manyToMany',
@@ -417,7 +417,6 @@ export interface ApiSongSong extends Schema.CollectionType {
       'manyToMany',
       'api::artist.artist'
     >;
-    cover: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::song.song', 'oneToOne', 'admin::user'> &

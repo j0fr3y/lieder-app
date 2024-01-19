@@ -27,7 +27,6 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
 
   function resizeListener() {
     if (typeof window !== "undefined") {
-      console.log("window is defined " + window.innerWidth);
       setPageWidth(window.innerWidth * 0.7);
     }
   }

@@ -41,7 +41,6 @@ export interface Song {
       data: Artist[];
     };
     file: File;
-    cover: Image;
   };
 }
 
@@ -51,7 +50,6 @@ export interface Artist {
     name: string;
     createdAt: string;
     updatedAt: string;
-    picture: Image | null;
   };
 }
 

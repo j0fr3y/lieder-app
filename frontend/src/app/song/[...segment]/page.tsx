@@ -41,16 +41,6 @@ export default async function PageSong({
       <main className="flex flex-col h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Image
-              src={
-                process.env.NEXT_PUBLIC_STRAPI_URL +
-                songData.data.attributes.cover.data.attributes.url
-              }
-              alt="Album Cover"
-              width={100}
-              height={100}
-              className="rounded-lg object-cover w-20 h-20"
-            />
             <div>
               <h1 className="text-2xl font-bold">
                 {songData.data.attributes.title}

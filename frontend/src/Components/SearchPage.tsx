@@ -12,15 +12,25 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
+import PlausibleProvider, { usePlausible } from "next-plausible";
+
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const plausible = usePlausible();
+
   let meiliClient = new MeiliSearch({
     host: process.env.NEXT_PUBLIC_MEILI_HOST || "",
     apiKey: process.env.NEXT_PUBLIC_MEILI_PUBLIC_KEY || "",
   });
 
   function searchSongs() {
+    plausible("SearchQuery", {
+      props: {
+        searchQuery: searchQuery,
+      },
+    });
+
     meiliClient.getIndex("song").then((index) => {
       index.search(searchQuery).then((searchResult) => {
         setSongs(searchResult.hits.map((hit) => hit as Song));
@@ -85,7 +95,6 @@ export default function Home() {
               key={song.id} // Add a unique key for each song
               title={song.title}
               artist={song.artists[0].name}
-              imageUrl={song.cover.url} // Assuming each song has an imageId
             />
           </Link>
         ))}
