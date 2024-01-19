@@ -35,4 +35,8 @@ if (!process.env.NEXT_PUBLIC_MEILI_PUBLIC_KEY) {
         `\nNEXT_PUBLIC_MEILI_PUBLIC_KEY=${res["key"]}`
       );
     });
+
+  console.log("Key created");
 }
+
+console.log("Setup done");

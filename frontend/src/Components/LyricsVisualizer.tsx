@@ -6,16 +6,6 @@ interface LyricsVisualizerProps {
 }
 
 const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
-  if (!lyrics) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-2xl font-bold text-gray-600 text-center">
-          Songtexte sind leider aktuell für diesen Song nicht verfügbar.
-        </p>
-      </div>
-    );
-  }
-
   let [currentLine, setCurrentLine] = useState(0);
 
   let lastScrollPosition = 0;
@@ -140,6 +130,16 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
       window.removeEventListener("touchmove", handleTouch);
     };
   });
+
+  if (!lyrics) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-2xl font-bold text-gray-600 text-center">
+          Songtexte sind leider aktuell für diesen Song nicht verfügbar.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center p-20 mb-60">
