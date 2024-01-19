@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { SongApiResponse } from "@/types/ApiTypes";
-import Image from "next/image";
+
 import PdfViewer from "@/Components/PdfViewer";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

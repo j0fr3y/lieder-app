@@ -1,7 +1,5 @@
 "use client";
-import { get } from "http";
-import React, { use, useLayoutEffect, useRef, useState } from "react";
-import { useSpring, animated } from "react-spring";
+import React, { useLayoutEffect, useState } from "react";
 
 interface LyricsVisualizerProps {
   lyrics: string;
