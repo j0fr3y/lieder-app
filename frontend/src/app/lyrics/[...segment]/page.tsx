@@ -34,7 +34,7 @@ export default async function PageSong({
 
   return (
     <div>
-      <LyricsVisualizer lyrics={songData.data.attributes.lyrics} />
+      <LyricsVisualizer lyrics={songData.data.attributes.lyrics ?? ""} />
     </div>
   );
 }

@@ -34,7 +34,7 @@ export interface Song {
   id: number;
   attributes: {
     title: string;
-    lyrics: string;
+    lyrics: string | null;
     createdAt: string;
     updatedAt: string;
     artists: {

@@ -15,6 +15,7 @@ async function getSongData(songId: number) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
         "Content-Type": "application/json",
       },
+      next: { revalidate: 60 },
     }
   );
 
