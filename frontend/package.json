@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prod": "next build && next start"
+    "prod": "next build && next start",
+    "setup": "node ./utils/setup.js"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "dotenv": "^16.3.2",
     "meilisearch": "^0.36.0",
     "next": "14.0.4",
     "next-plausible": "^3.12.0",
