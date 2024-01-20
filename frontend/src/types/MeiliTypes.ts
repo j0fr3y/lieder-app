@@ -52,6 +52,7 @@ export interface Song {
   id: number;
   title: string;
   lyrics: string | null;
+  tags: string | null;
   createdAt: string;
   updatedAt: string;
   file: File;

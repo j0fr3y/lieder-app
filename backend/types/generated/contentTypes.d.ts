@@ -417,6 +417,7 @@ export interface ApiSongSong extends Schema.CollectionType {
       'manyToMany',
       'api::artist.artist'
     >;
+    tags: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::song.song', 'oneToOne', 'admin::user'> &

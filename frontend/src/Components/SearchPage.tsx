@@ -1,7 +1,7 @@
 "use client";
 
 import SongCard from "@/Components/SongCard";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Link from "next/link";
 
 import MeiliSearch from "meilisearch";
@@ -13,33 +13,34 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import PlausibleProvider, { usePlausible } from "next-plausible";
+import { get } from "http";
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const plausible = usePlausible();
+  const [initialSearch, setInitialSearch] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
 
   let meiliClient = new MeiliSearch({
     host: process.env.NEXT_PUBLIC_MEILI_HOST || "",
     apiKey: process.env.NEXT_PUBLIC_MEILI_PUBLIC_KEY || "",
   });
 
-  function searchSongs() {
-    plausible("SearchQuery", {
-      props: {
-        searchQuery: searchQuery,
-      },
-    });
-
+  function searchSongs(query: string = searchQuery) {
     meiliClient.getIndex("song").then((index) => {
-      index.search(searchQuery).then((searchResult) => {
-        setSongs(searchResult.hits.map((hit) => hit as Song));
+      index.search(query).then((searchResult) => {
+        let newSongs = searchResult.hits.map((hit) => hit as Song);
+        setSongs(newSongs);
+        createTags(newSongs);
       });
     });
   }
 
   useEffect(() => {
-    searchSongs();
+    if (!initialSearch) {
+      searchSongs();
+      setInitialSearch(true);
+    }
   });
 
   function createSeoFriendlyUrl(title: string) {
@@ -55,6 +56,22 @@ export default function Home() {
     return url;
   }
 
+  function createTags(psongs: Song[] = songs) {
+    let protoTags: string[] = [];
+    psongs.forEach((song) => {
+      let songTags = song.tags?.split("\n");
+      if (songTags) {
+        protoTags.push(...songTags);
+      }
+    });
+    setTags(protoTags);
+  }
+
+  function appendTag(tag: string) {
+    setSearchQuery(searchQuery + " " + tag);
+    searchSongs(searchQuery + " " + tag);
+  }
+
   return (
     <main className="bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center bg-white p-6 sm:p-8">
@@ -67,6 +84,7 @@ export default function Home() {
             placeholder="Suche nach einem Lied ..."
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyUp={(e) => searchSongs()}
+            value={searchQuery}
           />
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
@@ -75,13 +93,28 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="flex justify-center pt-8">
+        {tags.map((tag, index) => (
+          <span
+            onClick={() => appendTag(tag)}
+            key={index}
+            className="text-sm bg-gray-200 text-gray-800  rounded-full px-2 py-1 mr-2 mb-2"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
       <div className="flex justify-center mt-8 sm:hidden mx-8">
         <input
           type="text"
           className=" px-4 py-2 border border-gray-300 rounded-md w-full"
           placeholder="Suche nach einem Lied ..."
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
           onKeyUp={(e) => searchSongs()}
+          value={searchQuery}
         />
       </div>
 
@@ -95,6 +128,7 @@ export default function Home() {
               key={song.id} // Add a unique key for each song
               title={song.title}
               artist={song.artists[0].name}
+              tagsText={song.tags || ""}
             />
           </Link>
         ))}
