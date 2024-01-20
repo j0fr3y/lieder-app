@@ -60,7 +60,12 @@ export default async function PageSong({
               </h3>
               <Link
                 href={"/lyrics/" + songData.data.id}
-                className="p-2.5 text-gray-600 rounded-lg font-medium text-sm"
+                className={` ${
+                  songData.data.attributes.lyrics !== null
+                    ? "visible"
+                    : "invisible"
+                }
+                  p-2.5 text-gray-600 rounded-lg font-medium text-sm `}
               >
                 Lyrics anzeigen
                 <FontAwesomeIcon icon={faArrowRight} className="pl-1.5" />

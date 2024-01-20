@@ -40,7 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     searchSongs();
-  }, []);
+  });
 
   function createSeoFriendlyUrl(title: string) {
     // Convert to lowercase
