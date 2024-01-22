@@ -102,6 +102,7 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
           onLoadSuccess={onDocumentLoadSuccess}
         >
           <Page
+            scale={1}
             renderTextLayer={false}
             pageNumber={pageNumber}
             width={pageWidth}
