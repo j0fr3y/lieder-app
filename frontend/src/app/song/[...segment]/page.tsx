@@ -44,13 +44,11 @@ export default async function PageSong({
 
   return (
     <div className="">
-      <main className="flex flex-col min-h-screen bg-gray-50">
+      <main className=" min-h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
 
-            <button onClick={() => router.back()} className="text-gray-600">
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
+
             <div>
               <h1 className="text-2xl font-bold">
                 {songData.data.attributes.title}
@@ -61,9 +59,14 @@ export default async function PageSong({
             </div>
           </div>
         </header>
-        <section className="flex-grow p-8 ">
+        <button onClick={() => router.back()} className="text-gray-600 p-8">
+          <FontAwesomeIcon icon={faChevronLeft} scale={1} /> Zurück
+        </button>
+        <section className="flex-grow p-8 pt-0 ">
+
           <div className="border border-gray-200 shadow-sm rounded-lg">
             <div className="flex justify-between items-center p-4 pb-0 sm:p-6">
+
               <h3 className="text-2xl font-semibold">Notenblätter</h3>
               <Link
                 href={"/lyrics/" + songData.data.id}
