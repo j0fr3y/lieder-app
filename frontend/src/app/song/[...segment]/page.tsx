@@ -39,7 +39,7 @@ export default async function PageSong({
 
   return (
     <div className="">
-      <main className="flex flex-col h-screen bg-gray-50">
+      <main className="flex flex-col min-h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
             <div>
@@ -52,12 +52,10 @@ export default async function PageSong({
             </div>
           </div>
         </header>
-        <section className="flex-grow p-8 overflow-auto">
-          <div className="bg-card text-card-foreground border border-gray-200 shadow-sm rounded-lg">
-            <div className="flex justify-between items-center p-6">
-              <h3 className="text-2xl font-semibold leading-none tracking-tight">
-                Notenblätter
-              </h3>
+        <section className="flex-grow p-8 ">
+          <div className="border border-gray-200 shadow-sm rounded-lg">
+            <div className="flex justify-between items-center p-4 pb-0 sm:p-6">
+              <h3 className="text-2xl font-semibold">Notenblätter</h3>
               <Link
                 href={"/lyrics/" + songData.data.id}
                 className={` ${
@@ -67,11 +65,11 @@ export default async function PageSong({
                 }
                   p-2.5 text-gray-600 rounded-lg font-medium text-sm `}
               >
-                Lyrics anzeigen
+                <p>Lyrics</p> anzeigen
                 <FontAwesomeIcon icon={faArrowRight} className="pl-1.5" />
               </Link>
             </div>
-            <div className="p-6">
+            <div className="p-6 pt-0">
               <PdfViewer
                 pdfUrl={songData.data.attributes.file.data.attributes.url}
               />

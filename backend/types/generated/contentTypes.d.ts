@@ -410,7 +410,7 @@ export interface ApiSongSong extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String & Attribute.Required & Attribute.Unique;
-    file: Attribute.Media;
+    file: Attribute.Media & Attribute.Required;
     lyrics: Attribute.Text;
     artists: Attribute.Relation<
       'api::song.song',

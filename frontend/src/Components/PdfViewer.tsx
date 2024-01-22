@@ -5,7 +5,6 @@ import { pdfjs } from "react-pdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { Console } from "console";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -22,6 +21,18 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
     if (typeof window !== "undefined") {
       resizeListener();
       window.addEventListener("resize", resizeListener);
+      window.addEventListener("orientationchange", resizeListener);
+      window.addEventListener("keydown", keyPressListener);
+    }
+  }
+
+  function keyPressListener(event: KeyboardEvent) {
+    if (event.key === "ArrowRight") {
+      console.log("right");
+      goToNextPage();
+    } else if (event.key === "ArrowLeft") {
+      console.log("left");
+      goToPreviousPage();
     }
   }
 
@@ -44,38 +55,48 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
   };
 
   return (
-    <div className="max-w-full mx-auto p-4 sm:p-8 md:p-12 lg:p-16">
-      <div className="mb-4 flex justify-between items-center sticky top-0 z-10 align-middle ">
-        <button
-          className="text-gray-600 px-4 py-2 rounded"
-          onClick={goToPreviousPage}
-          disabled={pageNumber <= 1}
-        >
-          <div className="invisible sm:visible text-center">
-            <FontAwesomeIcon icon={faArrowLeft} /> Nächste Seite
-          </div>
-          <FontAwesomeIcon icon={faArrowLeft} className="sm:invisible" />
-        </button>
-        <span className="text-gray-600">
-          <div className="invisible sm:visible text-center">
+    <div className=" p-4 sm:p-8 md:p-12 lg:p-16">
+      <div className="">
+        <div className="collapse sm:visible mb-4 flex justify-between items-center sticky top-0 z-10 align-middle ">
+          <button
+            className="text-gray-600 pr-4 text-center"
+            onClick={goToPreviousPage}
+            disabled={pageNumber <= 1}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="" /> Vorherige Seite
+          </button>
+          <span className="text-gray-600 text-center">
             Seite {pageNumber} von {numPages}
-          </div>
-          <div className="sm:invisible text-center">
-            {pageNumber} / {numPages}
-          </div>
-        </span>
-        <button
-          className="text-gray-600 px-4 py-2 rounded"
-          onClick={goToNextPage}
-          disabled={pageNumber >= (numPages ?? 0)}
-        >
-          <div className="invisible sm:visible text-center">
+          </span>
+          <button
+            className="text-gray-600 pl-4 text-center"
+            onClick={goToNextPage}
+            disabled={pageNumber >= (numPages ?? 0)}
+          >
             Nächste Seite <FontAwesomeIcon icon={faArrowRight} />
-          </div>
-          <FontAwesomeIcon icon={faArrowRight} className="sm:invisible" />
-        </button>
+          </button>
+        </div>
+        <div className="sm:collapse mb-4 flex justify-between items-center sticky top-0 z-10 align-middle ">
+          <button
+            className="text-gray-600 pr-4 text-center"
+            onClick={goToPreviousPage}
+            disabled={pageNumber <= 1}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="" />
+          </button>
+          <span className="text-gray-600 text-center">
+            {pageNumber} / {numPages}
+          </span>
+          <button
+            className="text-gray-600 pl-4 text-center"
+            onClick={goToNextPage}
+            disabled={pageNumber >= (numPages ?? 0)}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        </div>
       </div>
-      <div className="relative items-center align-middle">
+      <div className="flex justify-center items-center align-middle">
         <Document
           file={process.env.NEXT_PUBLIC_STRAPI_URL + pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}

@@ -77,7 +77,7 @@ export default function Home() {
       <div className="flex justify-between items-center bg-white p-6 sm:p-8">
         <h1 className="text-4xl font-semibold">AHF Songs</h1>
 
-        <div className="flex items-center sm:visible invisible">
+        <div className="flex items-center sm:visible collapse">
           <input
             type="text"
             className=" px-4 py-2 border border-gray-300 rounded-md w-40 sm:w-60"
@@ -93,15 +93,17 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-center pt-8">
+      <div className="flex flex-wrap justify-center pt-8 mx-8">
         {tags.map((tag, index) => (
-          <span
+          <div
             onClick={() => appendTag(tag)}
             key={index}
-            className="text-sm bg-gray-200 text-gray-800  rounded-full px-2 py-1 mr-2 mb-2"
+            className="flex justify-center align-middle items-center w-min text-sm bg-gray-200 rounded-full whitespace-nowrap m-1.5 "
           >
-            {tag}
-          </span>
+            <span className="text-gray-800 px-2 py-1 text-center text-nowrap">
+              {tag}
+            </span>
+          </div>
         ))}
       </div>
 
