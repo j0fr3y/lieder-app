@@ -85,29 +85,18 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
   }
 
   function getFirstVisibleLineIndex() {
-    const goldenRatio = 2.618; // Golden ratio constant
-    const windowHeight = window.innerHeight;
-    const goldenPosition = windowHeight / goldenRatio;
-
-    let closestTopDistance = Infinity;
-    let goldenLineIndex = 0;
-
+    let firstVisibleLineIndex = 0;
     for (let i = 0; i < lyricsArray.length; i++) {
       let element = document.getElementById("line" + i);
-
       if (element) {
         let rect = element.getBoundingClientRect();
-        let topDistance = Math.abs(rect.top - goldenPosition);
-
-        if (topDistance < closestTopDistance) {
-          closestTopDistance = topDistance;
-          goldenLineIndex = i;
+        if (rect.top > 0 && rect.bottom < window.innerHeight) {
+          firstVisibleLineIndex = i;
+          break;
         }
       }
     }
-    console.log(goldenLineIndex);
-    console.log(lyricsArray[goldenLineIndex]);
-    return goldenLineIndex;
+    return firstVisibleLineIndex;
   }
 
   function handleTouch(event: TouchEvent) {
