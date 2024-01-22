@@ -1,10 +1,12 @@
+"use client";
 import { notFound } from "next/navigation";
 import { SongApiResponse } from "@/types/ApiTypes";
 
 import PdfViewer from "@/Components/PdfViewer";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from 'next/navigation'
 
 async function getSongData(songId: number) {
   const response = await fetch(
@@ -31,6 +33,9 @@ export default async function PageSong({
 }: {
   params: { segment: string[] };
 }) {
+
+  const router = useRouter()
+
   // check if the first segment is a number
   if (isNaN(Number(params.segment[0]))) {
     return notFound();
@@ -42,6 +47,10 @@ export default async function PageSong({
       <main className="flex flex-col min-h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
+
+            <button onClick={() => router.back()} className="text-gray-600">
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
             <div>
               <h1 className="text-2xl font-bold">
                 {songData.data.attributes.title}
@@ -58,11 +67,10 @@ export default async function PageSong({
               <h3 className="text-2xl font-semibold">Notenblätter</h3>
               <Link
                 href={"/lyrics/" + songData.data.id}
-                className={` ${
-                  songData.data.attributes.lyrics !== null
-                    ? "visible"
-                    : "invisible"
-                }
+                className={` ${songData.data.attributes.lyrics !== null
+                  ? "visible"
+                  : "invisible"
+                  }
                   p-2.5 text-gray-600 rounded-lg font-medium text-sm `}
               >
                 <p>Lyrics</p> anzeigen

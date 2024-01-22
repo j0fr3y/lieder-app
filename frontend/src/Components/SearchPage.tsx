@@ -12,8 +12,7 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-import PlausibleProvider, { usePlausible } from "next-plausible";
-import { get } from "http";
+
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
@@ -134,7 +133,15 @@ export default function Home() {
             />
           </Link>
         ))}
+
+
       </div>
+      {songs.length == 0 && (
+        <div className="flex flex-col justify-center text-center text-gray-500">
+          <p className="text-xl sm:text-2xl">Keine Lieder gefunden</p>
+          <p className="text-base sm:text-lg">Versuche es mit einem anderen Suchbegriff</p>
+        </div>
+      )}
     </main>
   );
 }
