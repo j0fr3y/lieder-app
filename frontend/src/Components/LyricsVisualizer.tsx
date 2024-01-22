@@ -19,7 +19,7 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
     if (userIsScrolling) {
       let visibleLineIndex = getFirstVisibleLineIndex();
 
-      if (visibleLineIndex < lyricsArray.length - 1) {
+      if (visibleLineIndex < lyricsArray.length) {
         setCurrentLine(visibleLineIndex);
       }
       return;
@@ -85,18 +85,29 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
   }
 
   function getFirstVisibleLineIndex() {
-    let firstVisibleLineIndex = 0;
+    const goldenRatio = 2.618; // Golden ratio constant
+    const windowHeight = window.innerHeight;
+    const goldenPosition = windowHeight / goldenRatio;
+
+    let closestTopDistance = Infinity;
+    let goldenLineIndex = 0;
+
     for (let i = 0; i < lyricsArray.length; i++) {
       let element = document.getElementById("line" + i);
+
       if (element) {
         let rect = element.getBoundingClientRect();
-        if (rect.top > 0 && rect.bottom < window.innerHeight) {
-          firstVisibleLineIndex = i;
-          break;
+        let topDistance = Math.abs(rect.top - goldenPosition);
+
+        if (topDistance < closestTopDistance) {
+          closestTopDistance = topDistance;
+          goldenLineIndex = i;
         }
       }
     }
-    return firstVisibleLineIndex;
+    console.log(goldenLineIndex);
+    console.log(lyricsArray[goldenLineIndex]);
+    return goldenLineIndex;
   }
 
   function handleTouch(event: TouchEvent) {
