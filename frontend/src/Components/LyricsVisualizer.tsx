@@ -1,5 +1,7 @@
 "use client";
+import { set } from "lodash";
 import React, { useLayoutEffect, useState } from "react";
+import "./LyricsVisualizer.css";
 
 interface LyricsVisualizerProps {
   lyrics: string;
@@ -8,9 +10,8 @@ interface LyricsVisualizerProps {
 const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
   let [currentLine, setCurrentLine] = useState(0);
 
+  let [userIsScrolling, setUserIsScrolling] = useState(false);
   let lastScrollPosition = 0;
-
-  let userIsScrolling = false;
 
   let lyricsArray = lyrics.split("\n");
 
@@ -62,18 +63,11 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
     } else if (event.key === "ArrowLeft") {
       moveBackward();
     }
+    setUserIsScrolling(false);
   }
 
   function handleWheel(event: WheelEvent) {
-    if (event.deltaY > 0) {
-      userIsScrolling = true;
-      moveForward();
-      userIsScrolling = false;
-    } else if (event.deltaY < 0) {
-      userIsScrolling = true;
-      moveBackward();
-      userIsScrolling = false;
-    }
+    setUserIsScrolling(true);
   }
 
   function getLastVisibleLineIndex() {
@@ -106,16 +100,7 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
   }
 
   function handleTouch(event: TouchEvent) {
-    userIsScrolling = true;
-    let visibleLineIndex = getFirstVisibleLineIndex();
-
-    if (visibleLineIndex < lyricsArray.length - 1) {
-      setCurrentLine(visibleLineIndex);
-    }
-
-    setTimeout(() => {
-      userIsScrolling = false;
-    }, 2000);
+    setUserIsScrolling(true);
   }
 
   useLayoutEffect(() => {
@@ -142,7 +127,7 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
   }
 
   return (
-    <div className="flex justify-center p-20 mb-60">
+    <div className="flex justify-center p-20 lyrics-container-margin">
       <div>
         {lyricsArray.map((line, index) => {
           return (
@@ -150,9 +135,7 @@ const LyricsVisualizer: React.FC<LyricsVisualizerProps> = ({ lyrics }) => {
               key={index}
               id={"line" + index}
               className={`${
-                currentLine === index || userIsScrolling === true
-                  ? "text-gray-800"
-                  : "text-gray-300"
+                currentLine === index ? "text-gray-800" : "text-gray-300"
               } text-left font-bold text-3xl py-5 sm:text-5xl sm:py-9 md:text-6xl md:py-14 xl:text-7xl xl:py-18 2xl:text-8xl 2xl:py-24 `}
             >
               {line}
