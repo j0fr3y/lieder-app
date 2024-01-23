@@ -12,9 +12,13 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { Organization } from "@/types/Essentials";
 
+type SearchPageProps = {
+  organization: Organization;
+};
 
-export default function Home() {
+export default function Home({ organization }: SearchPageProps) {
   const [songs, setSongs] = useState<Song[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [initialSearch, setInitialSearch] = useState(false);
@@ -122,7 +126,7 @@ export default function Home() {
       <div className="p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {songs.map((song, index) => (
           <Link
-            href={"/song/" + song.id + "/" + createSeoFriendlyUrl(song.title)}
+            href={(organization != null ? "/" + organization : "") + "/song/" + song.id + "/" + createSeoFriendlyUrl(song.title)}
             key={index}
           >
             <SongCard

@@ -4,7 +4,7 @@ import React from "react";
 const GemeindePage: React.FC = () => {
   return (
     <div>
-      <SearchPage />
+      <SearchPage organization="grundschule" />
     </div>
   );
 };

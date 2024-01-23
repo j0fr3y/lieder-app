@@ -5,7 +5,7 @@ import PlausibleProvider from "next-plausible";
 const GemeindePage: React.FC = () => {
   return (
     <div>
-      <SearchPage />
+      <SearchPage organization="gemeinde" />
     </div>
   );
 };
