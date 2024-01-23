@@ -8,7 +8,7 @@ const Page: React.FC = () => {
   return (
     <div>
 
-      <main className="flex flex-col items-center justify-center h-screen bg-gray-50">
+      <main className="flex flex-col items-center align-middle justify-center h-screen bg-gray-50">
         <h1 className="text-3xl md:text-4xl font-bold text-center">Wähle deine Organisation</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mt-10">
           <Link className="group" href="/gemeinde">
