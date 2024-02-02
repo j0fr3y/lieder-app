@@ -38,6 +38,12 @@
     "tags": {
       "type": "text",
       "required": false
+    },
+    "minAge": {
+      "type": "integer"
+    },
+    "maxAge": {
+      "type": "integer"
     }
   }
 }

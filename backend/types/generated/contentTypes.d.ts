@@ -418,6 +418,8 @@ export interface ApiSongSong extends Schema.CollectionType {
       'api::artist.artist'
     >;
     tags: Attribute.Text;
+    minAge: Attribute.Integer;
+    maxAge: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::song.song', 'oneToOne', 'admin::user'> &

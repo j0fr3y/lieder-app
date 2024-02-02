@@ -55,6 +55,8 @@ export interface Song {
   tags: string | null;
   createdAt: string;
   updatedAt: string;
+  minAge: number | null;
+  maxAge: number | null;
   file: File;
   artists: Artist[];
   cover: Cover;
