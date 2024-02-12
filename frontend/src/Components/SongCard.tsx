@@ -18,7 +18,7 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, tagsText }) => {
 
   return (
     <div className="rounded-lg border shadow-md bg-white">
-      <div className=" p-6 flex flex-col ">
+      <div className=" p-6 flex flex-col">
         <div className="flex">
           <h3 className="text-lg font-medium pr-3">{title}</h3>
           <div className="flex flex-wrap">

@@ -1,6 +1,7 @@
 "use client";
 
 import SongCard from "@/Components/SongCard";
+import AgePicker from "@/Components/AgePicker";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -31,6 +32,8 @@ export default function Home({ organization }: SearchPageProps) {
   const [initialSearch, setInitialSearch] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [minAge, setMinAge] = useState<number>(0);
+  const [maxAge, setMaxAge] = useState<number>(100);
 
   let meiliClient = new MeiliSearch({
     host: process.env.NEXT_PUBLIC_MEILI_HOST || "",
@@ -53,7 +56,8 @@ export default function Home({ organization }: SearchPageProps) {
       searchSongs();
       setInitialSearch(true);
     }
-  });
+    filterSongs(activeTags, minAge, maxAge, agePopOver);
+  }, [searchQuery, activeTags, minAge, maxAge, agePopOver]);
 
   function createSeoFriendlyUrl(title: string) {
     // Convert to lowercase
@@ -98,20 +102,43 @@ export default function Home({ organization }: SearchPageProps) {
 
   function toggleAgePopOver() {
     setAgePopOver(!agePopOver);
+    filterSongs(activeTags, 0, 100, !agePopOver);
   }
 
-  function filterSongs(filterTags: string[]) {
+  function filterSongs(
+    filterTags: string[],
+    ageMin: number = 0,
+    ageMax: number = 100,
+    filterAge: boolean | null = null
+  ) {
+    let filteredSongs: Song[] = initialSongs;
     if (filterTags.length == 0) {
-      setSongs(initialSongs);
-      return;
+      filteredSongs = initialSongs;
+    } else {
+      filteredSongs = filteredSongs.filter((song) => {
+        let songTags = song.tags?.split("\n");
+        if (songTags) {
+          return filterTags.some((tag) => songTags.includes(tag));
+        }
+        return false;
+      });
     }
-    let filteredSongs = initialSongs.filter((song) => {
-      let songTags = song.tags?.split("\n");
-      if (songTags) {
-        return filterTags.some((tag) => songTags.includes(tag));
-      }
-      return false;
-    });
+
+    if (filterAge !== null && filterAge) {
+      filteredSongs = filteredSongs.filter((song) => {
+        if (song.minAge !== null && song.maxAge !== null) {
+          return song.minAge >= ageMin && song.maxAge <= ageMax;
+        }
+        if (song.minAge !== null) {
+          return song.minAge >= ageMin;
+        }
+        if (song.maxAge !== null) {
+          return song.maxAge <= ageMax;
+        }
+        return false;
+      });
+    }
+
     setSongs(filteredSongs);
   }
 
@@ -136,7 +163,7 @@ export default function Home({ organization }: SearchPageProps) {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center pt-4 mx-8 ">
+      <div className="flex flex-wrap justify-center mt-6 mx-8 ">
         {activeTags.map((tag, index) => (
           <button
             onClick={() => removeTag(tag)}
@@ -165,22 +192,32 @@ export default function Home({ organization }: SearchPageProps) {
         ))}
       </div>
 
-      <div className="flex flex-wrap justify-center mx-8 pt-4">
+      <div className="flex flex-wrap justify-center mx-8 mt-4">
         <button
-          onClick={toggleAgePopOver}
-          className="bg-gray-200 border border-gray-200 shadow-sm text-sm p-2 px-4 rounded-md text-gray-900"
-        >
-          Altersgruppe
-          <FontAwesomeIcon icon={faFilter} className="ml-2 h-3 text-gray-400" />
-        </button>
-        <div
+          onClick={() => {
+            toggleAgePopOver();
+          }}
           className={`${
-            agePopOver ? "visible" : "invisible"
-          } absolute bg-white border shadow-md p-4 rounded-md`}
+            agePopOver
+              ? "bg-gray-300 text-gray-900"
+              : "bg-gray-200 text-gray-800"
+          } px-3 py-1.5 rounded-lg text-sm `}
         >
-          <input type="range" />
-        </div>
+          Nach Alter filtern{" "}
+          {agePopOver && <FontAwesomeIcon icon={faXmark} className="ml-1" />}
+        </button>
       </div>
+      {agePopOver && (
+        <div className="flex flex-wrap justify-center mx-8 mt-6">
+          <AgePicker
+            onAgeChange={(ageMin, ageMax) => {
+              filterSongs(activeTags, ageMin, ageMax, true);
+              setMinAge(ageMin);
+              setMaxAge(ageMax);
+            }}
+          />
+        </div>
+      )}
 
       <div className="flex justify-center mt-8 sm:hidden mx-8">
         <input
