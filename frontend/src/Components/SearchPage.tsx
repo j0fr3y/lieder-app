@@ -116,7 +116,7 @@ export default function Home({ organization }: SearchPageProps) {
       filteredSongs = initialSongs;
     } else {
       filteredSongs = filteredSongs.filter((song) => {
-        let songTags = song.tags?.split("\n");
+        let songTags = song.tags?.split("\n") ?? [];
         if (songTags) {
           return filterTags.some((tag) => songTags.includes(tag));
         }
