@@ -75,7 +75,7 @@ export default function Home({ organization }: SearchPageProps) {
   function createTags(psongs: Song[] = songs) {
     let protoTags: string[] = [];
     psongs.forEach((song) => {
-      let songTags = song.tags?.split("\n");
+      let songTags = song.tags?.split("\n") ?? [];
       if (songTags) {
         songTags.forEach((tag) => {
           if (!protoTags.includes(tag)) {
