@@ -6,7 +6,7 @@ import PdfViewer from "@/Components/PdfViewer";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 async function getSongData(songId: number) {
   const response = await fetch(
@@ -25,6 +25,8 @@ async function getSongData(songId: number) {
     throw new Error("Failed to fetch data");
   }
 
+  console.log(response.json());
+
   return response.json();
 }
 
@@ -33,8 +35,7 @@ export default async function PageSong({
 }: {
   params: { segment: string[] };
 }) {
-
-  const router = useRouter()
+  const router = useRouter();
 
   // check if the first segment is a number
   if (isNaN(Number(params.segment[0]))) {
@@ -47,14 +48,13 @@ export default async function PageSong({
       <main className=" min-h-screen bg-gray-50">
         <header className="px-8 py-6 bg-white border-b shadow-sm flex justify-between items-center">
           <div className="flex items-center gap-4">
-
-
             <div>
               <h1 className="text-2xl font-bold">
                 {songData.data.attributes.title}
               </h1>
               <p className="text-sm text-gray-600">
-                {songData.data.attributes.artists.data[0].attributes.name}
+                {songData?.data?.attributes?.artists?.data[0]?.attributes
+                  ?.name ?? "No artist available"}
               </p>
             </div>
           </div>
@@ -63,17 +63,16 @@ export default async function PageSong({
           <FontAwesomeIcon icon={faChevronLeft} scale={1} /> Zurück
         </button>
         <section className="flex-grow p-8 pt-0 ">
-
           <div className="border border-gray-200 shadow-sm rounded-lg">
             <div className="flex justify-between items-center p-4 pb-0 sm:p-6">
-
               <h3 className="text-2xl font-semibold">Notenblätter</h3>
               <Link
                 href={"/lyrics/" + songData.data.id}
-                className={` ${songData.data.attributes.lyrics !== null
-                  ? "visible"
-                  : "invisible"
-                  }
+                className={` ${
+                  songData.data.attributes.lyrics !== null
+                    ? "visible"
+                    : "invisible"
+                }
                   p-2.5 text-gray-600 rounded-lg font-medium text-sm `}
               >
                 <p>Lyrics</p> anzeigen

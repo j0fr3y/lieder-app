@@ -42,7 +42,7 @@ export interface Song {
     maxAge: number | null;
     artists: {
       data: Artist[];
-    };
+    } | null;
     file: File;
   };
 }

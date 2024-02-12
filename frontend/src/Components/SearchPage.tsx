@@ -247,7 +247,11 @@ export default function Home({ organization }: SearchPageProps) {
             <SongCard
               key={song.id} // Add a unique key for each song
               title={song.title}
-              artist={song.artists[0].name}
+              artist={
+                song.artists && song.artists.length > 0
+                  ? song.artists[0].name
+                  : "Unbekannter Künstler"
+              }
               tagsText={song.tags || ""}
             />
           </Link>
