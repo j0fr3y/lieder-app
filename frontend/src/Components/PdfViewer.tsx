@@ -100,6 +100,7 @@ export default function PdfViewer({ pdfUrl }: { pdfUrl: string }) {
         <Document
           file={process.env.NEXT_PUBLIC_STRAPI_URL + pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
+          renderMode="svg"
         >
           <Page
             scale={1}
