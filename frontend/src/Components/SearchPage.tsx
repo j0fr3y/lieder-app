@@ -27,6 +27,7 @@ export default function Home({ organization }: SearchPageProps) {
   const [initialSongs, setInitialSongs] = useState<Song[]>([]);
 
   const [agePopOver, setAgePopOver] = useState(false);
+  const [tagDropdown, setTagDropdown] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [initialSearch, setInitialSearch] = useState(false);
@@ -192,20 +193,21 @@ export default function Home({ organization }: SearchPageProps) {
             </span>
           </button>
         ))}
-        {tags.map((tag, index) => (
-          <button
-            onClick={() => appendTag(tag)}
-            key={index}
-            className="flex justify-center align-middle items-center w-min text-sm bg-gray-200 rounded-full whitespace-nowrap m-1.5 "
-          >
-            <span className="text-gray-800 px-2 py-1 text-center text-nowrap">
-              {tag}
-            </span>
-          </button>
-        ))}
       </div>
 
       <div className="flex flex-wrap justify-center mx-8 mt-4">
+        <button
+          onClick={() => setTagDropdown(!tagDropdown)}
+          className={`${
+            tagDropdown
+              ? "bg-gray-300 text-gray-900"
+              : "bg-gray-200 text-gray-800"
+          } px-3 py-1.5 mx-3 rounded-lg text-sm `}
+        >
+          Tags filtern{" "}
+          {tagDropdown && <FontAwesomeIcon icon={faXmark} className="ml-1" />}
+        </button>
+
         <button
           onClick={() => {
             toggleAgePopOver();
@@ -216,7 +218,7 @@ export default function Home({ organization }: SearchPageProps) {
               : "bg-gray-200 text-gray-800"
           } px-3 py-1.5 rounded-lg text-sm `}
         >
-          Nach Alter filtern{" "}
+          Alter filtern{" "}
           {agePopOver && <FontAwesomeIcon icon={faXmark} className="ml-1" />}
         </button>
       </div>
@@ -229,6 +231,25 @@ export default function Home({ organization }: SearchPageProps) {
               setMaxAge(ageMax);
             }}
           />
+        </div>
+      )}
+
+      {tagDropdown && (
+        <div className="flex flex-wrap mx-8 justify-center mt-6">
+          {tags.map((tag, index) => (
+            <button
+              onClick={() => {
+                appendTag(tag);
+                setTagDropdown(false);
+              }}
+              key={index}
+              className="flex justify-center align-middle items-center w-min text-sm bg-gray-200 rounded-full whitespace-nowrap m-1.5 "
+            >
+              <span className="text-gray-800 px-2 py-1 text-center text-nowrap">
+                {tag}
+              </span>
+            </button>
+          ))}
         </div>
       )}
 
