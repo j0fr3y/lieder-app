@@ -51,7 +51,8 @@ export default async function PageSong({
                 {songData.data.attributes.title}
               </h1>
               <p className="text-sm text-gray-600">
-                {songData.data.attributes.artists.data[0].attributes.name}
+                {songData?.data?.attributes?.artists?.data[0]?.attributes
+                  ?.name ?? "No artist available"}
               </p>
             </div>
           </div>

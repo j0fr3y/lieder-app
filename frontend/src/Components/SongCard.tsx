@@ -19,18 +19,18 @@ const SongCard: React.FC<SongCardProps> = ({ title, artist, tagsText }) => {
   return (
     <div className="rounded-lg border shadow-md bg-white">
       <div className=" p-6 flex flex-col">
+        <div className="pb-2">
+          {songTags.map((tag, index) => (
+            <span
+              key={index}
+              className="text-xs bg-gray-100 text-gray-800  rounded-full px-2 py-1 mr-2 mb-2 break-normal whitespace-nowrap"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
         <div className="flex">
           <h3 className="text-lg font-medium pr-3">{title}</h3>
-          <div className="flex flex-wrap">
-            {songTags.map((tag, index) => (
-              <span
-                key={index}
-                className="text-xs bg-gray-200 text-gray-800  rounded-full px-2 py-1 mr-2 mb-2"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
         </div>
         <p className="text-sm text-gray-600 mt-0.5">{artist}</p>
       </div>
