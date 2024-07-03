@@ -5,6 +5,8 @@ import AgePicker from "@/Components/AgePicker";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 
+import { searchInSongs } from "./actions";
+
 import MeiliSearch from "meilisearch";
 import { Song } from "@/types/MeiliTypes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,27 +43,11 @@ export default function Home({ organization }: SearchPageProps) {
     apiKey: process.env.NEXT_PUBLIC_MEILI_PUBLIC_KEY || "",
   });
 
-  function searchSongs(query: string = searchQuery) {
-    if (query == "") {
-      meiliClient.getIndex("song").then((index) => {
-        index.getDocuments({ limit: 1000 }).then((response) => {
-          let newSongs = response.results as Song[];
-          setSongs(newSongs);
-          setInitialSongs(newSongs);
-          createTags(newSongs);
-        });
-      });
-
-      return;
-    }
-
-    meiliClient.getIndex("song").then((index) => {
-      index.search(query).then((searchResult) => {
-        let newSongs = searchResult.hits.map((hit) => hit as Song);
-        setSongs(newSongs);
-        setInitialSongs(newSongs);
-        createTags(newSongs);
-      });
+  function searchSongs(query: string = searchQuery): Promise<void> {
+    return searchInSongs(query).then((response) => {
+      setSongs(response);
+      setInitialSongs(response);
+      createTags(response);
     });
   }
 

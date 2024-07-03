@@ -17,7 +17,7 @@ const AgePicker: FC<AgePickerProps> = ({ onAgeChange }) => {
   const handleInputChange = () => {
     const minAge = ageValues.min ? Number(ageValues.min) : 0;
     const maxAge = ageValues.max ? Number(ageValues.max) : 100;
-    console.log(minAge, maxAge);
+
     onAgeChange(minAge, maxAge);
   };
 

@@ -26,27 +26,6 @@ export interface Artist {
   updatedAt: string;
 }
 
-export interface Cover {
-  id: number;
-  name: string;
-  alternativeText: string | null;
-  caption: string | null;
-  width: number;
-  height: number;
-  formats: any; // You might want to define a type for formats
-  hash: string;
-  ext: string;
-  mime: string;
-  size: number;
-  url: string;
-  previewUrl: string | null;
-  provider: string;
-  provider_metadata: any; // You might want to define a type for provider_metadata
-  folderPath: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Song {
   _meilisearch_id: string;
   id: number;
@@ -59,5 +38,4 @@ export interface Song {
   maxAge: number | null;
   file: File;
   artists: Artist[];
-  cover: Cover;
 }
